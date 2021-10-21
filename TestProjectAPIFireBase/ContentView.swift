@@ -1,9 +1,4 @@
-//
-//  ContentView.swift
-//  TestProjectAPIFireBase
-//
-//  Created by Atul Kumar Rai on 10/19/21.
-//
+
 
 import SwiftUI
 import FirebaseFirestore
@@ -24,14 +19,14 @@ struct ContentView: View {
 //        self.viewModel.addNotification()
 //        self.viewModel.addNotification_Sequence()
         
-//        self.viewModel.fetchUser()
+        self.viewModel.fetchUser()
 //        self.viewModel.fetchAllItem()
 //        self.viewModel.fetchAllMessage()
 //        self.viewModel.fetchAllMessage_Sequence()
 //        self.viewModel.fetchAllPost()
 //        self.viewModel.fetchAllRental()
 //        self.viewModel.fetchAllNotification()
-        self.viewModel.fetchAllNotification_Sequence()
+//        self.viewModel.fetchAllNotification_Sequence()
 //
       }
     }
