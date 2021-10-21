@@ -8,6 +8,7 @@ struct Item: Identifiable, Codable {
   var item_title:String
   var item_description:String
   var item_category:String
+  var item_buy:Bool
   var condition:String
   var price:Double
   var images:[String]
@@ -20,6 +21,7 @@ struct Item: Identifiable, Codable {
     case item_title
     case item_description
     case item_category
+    case item_buy
     case condition
     case price
     case images

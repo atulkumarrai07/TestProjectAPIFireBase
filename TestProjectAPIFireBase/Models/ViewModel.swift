@@ -22,10 +22,10 @@ class ViewModel
   
   func addUser(){
     //loading users in array
-    users.append(User(id: "U00001",email: "aaratric@andrew.cmu.edu", first_name: "Aaratrika", last_name: "Chakraborty", campus_location: "Pittsburgh", saved_post_list: ["P00002","P00003"], my_post_list: ["P00001"], date_joined: Timestamp.init(), suggestion_preference: "Items", user_status: true))
-    users.append(User(id: "U00002",email: "atulkr@andrew.cmu.edu", first_name: "Atul", last_name: "Rai", campus_location: "Pittsburgh", saved_post_list: ["P00001","P00003"], my_post_list: ["P00002"], date_joined: Timestamp.init(), suggestion_preference: "Apartments", user_status: true))
-    users.append(User(id: "U00003",email: "mhao@andrew.cmu.edu", first_name: "Iris", last_name: "Hao", campus_location: "Pittsburgh", saved_post_list: ["P00001","P00002","P00004"], my_post_list: ["P00003"], date_joined: Timestamp.init(), suggestion_preference: "Any", user_status: true))
-    users.append(User(id: "U00004",email: "johndoe@andrew.cmu.edu", first_name: "John", last_name: "Doe", campus_location: "Pittsburgh", saved_post_list: ["P00002","P00003"], my_post_list: ["P00004"], date_joined: Timestamp.init(), suggestion_preference: "Any", user_status: true))
+    users.append(User(id: "U00001",email: "aaratric@andrew.cmu.edu", password: "aaratrika1234", first_name: "Aaratrika", last_name: "Chakraborty", campus_location: "Pittsburgh", saved_post_list: ["P00002","P00003"], my_post_list: ["P00001"], date_joined: Timestamp.init(), suggestion_preference: "Items", user_status: true))
+    users.append(User(id: "U00002",email: "atulkr@andrew.cmu.edu", password: "atul1234",first_name: "Atul", last_name: "Rai", campus_location: "Pittsburgh", saved_post_list: ["P00001","P00003"], my_post_list: ["P00002"], date_joined: Timestamp.init(), suggestion_preference: "Apartments", user_status: true))
+    users.append(User(id: "U00003",email: "mhao@andrew.cmu.edu", password: "mhao1234",first_name: "Iris", last_name: "Hao", campus_location: "Pittsburgh", saved_post_list: ["P00001","P00002","P00004"], my_post_list: ["P00003"], date_joined: Timestamp.init(), suggestion_preference: "Any", user_status: true))
+    users.append(User(id: "U00004",email: "johndoe@andrew.cmu.edu", password: "john1234",first_name: "John", last_name: "Doe", campus_location: "Pittsburgh", saved_post_list: ["P00002","P00003"], my_post_list: ["P00004"], date_joined: Timestamp.init(), suggestion_preference: "Any", user_status: true))
     
     //looping throught the array to push to the Firestore
     for user in users{
@@ -45,6 +45,7 @@ class ViewModel
             for document in querySnapshot!.documents {
               let id = document.documentID
               let email = document.get("email") as? String ?? ""
+              let password = document.get("password") as? String ?? ""
               let first_name = document.get("first_name") as? String ?? ""
               let last_name = document.get("last_name") as? String ?? ""
               let campus_location = document.get("campus_location") as? String ?? ""
@@ -53,7 +54,7 @@ class ViewModel
               let date_joined = document.get("date_joined") as? Timestamp ?? Timestamp.init()
               let suggestion_preference = document.get("suggestion_preference") as? String ?? ""
               let user_status = document.get("user_status") as? Bool ?? true
-              self.users.append(User(id: id, email: email, first_name: first_name, last_name: last_name, campus_location: campus_location, saved_post_list: saved_post_list, my_post_list: my_post_list, date_joined: date_joined, suggestion_preference: suggestion_preference, user_status: user_status))
+              self.users.append(User(id: id, email: email, password: password,first_name: first_name, last_name: last_name, campus_location: campus_location, saved_post_list: saved_post_list, my_post_list: my_post_list, date_joined: date_joined, suggestion_preference: suggestion_preference, user_status: user_status))
 //                print("\(document.documentID) => \(document.data())")
             }
           for user in self.users{
@@ -78,8 +79,8 @@ class ViewModel
   }
   
   func addItem() {
-    items.append(Item(id: "I00001", post_id: "P00001", item_title: "Lamp", item_description: "A lamp for the study table", item_category: "Electronics", condition: "Almost new", price: 15.90, images: ["https://..jpg"], zip_code: "15213", delivery: true, pickup_location: "3229 Hardie Way"))
-    items.append(Item(id: "I00002", post_id: "P00004", item_title: "Vacuum Cleaner", item_description: "1 year old vacuum cleaner with auto detection technology available at reasonable price.", item_category: "Cleaning-Appliance", condition: "New", price: 19.00, images: ["https://..jpg"], zip_code: "15213", delivery: false, pickup_location: "123 Forbes Avenue, Pittburgh"))
+    items.append(Item(id: "I00001", post_id: "P00001", item_title: "Lamp", item_description: "A lamp for the study table", item_category: "Electronics", item_buy: false, condition: "Almost new", price: 15.90, images: ["https://..jpg"], zip_code: "15213", delivery: true, pickup_location: "3229 Hardie Way"))
+    items.append(Item(id: "I00002", post_id: "P00004", item_title: "Vacuum Cleaner", item_description: "1 year old vacuum cleaner with auto detection technology available at reasonable price.", item_category: "Cleaning-Appliance", item_buy: false, condition: "New", price: 19.00, images: ["https://..jpg"], zip_code: "15213", delivery: false, pickup_location: "123 Forbes Avenue, Pittburgh"))
     
     for item in items{
       database.collection("Items").document(item.id).setData(item.dictionary)
@@ -168,6 +169,7 @@ class ViewModel
             let item_title = document.get("item_title") as? String ?? ""
             let item_description = document.get("item_description") as? String ?? ""
             let item_category = document.get("item_category") as? String ?? ""
+            let item_buy = document.get("item_buy") as? Bool ?? false
             let condition = document.get("condition") as? String ?? ""
             let price = document.get("price") as? Double ?? 0
             let images = document.get("images") as? [String] ?? []
@@ -175,7 +177,7 @@ class ViewModel
             let delivery = document.get("delivery") as? Bool ?? false
             let pickup_location = document.get("pickup_location") as? String ?? ""
             
-            self.items.append(Item(id: id, post_id: post_id, item_title: item_title, item_description: item_description, item_category: item_category, condition: condition, price: price, images: images, zip_code: zip_code, delivery: delivery, pickup_location: pickup_location))
+            self.items.append(Item(id: id, post_id: post_id, item_title: item_title, item_description: item_description, item_category: item_category, item_buy: item_buy, condition: condition, price: price, images: images, zip_code: zip_code, delivery: delivery, pickup_location: pickup_location))
 //                print("\(document.documentID) => \(document.data())")
             }
               for item in self.items{
