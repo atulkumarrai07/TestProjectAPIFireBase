@@ -8,6 +8,7 @@ struct User: Identifiable, Codable{
   var id:String = UUID().uuidString
   var email:String
   var password:String
+  var user_image:String
   var first_name:String
   var last_name:String
   var campus_location:String
@@ -20,6 +21,7 @@ struct User: Identifiable, Codable{
   enum CodingKeys: String, CodingKey {
     case email
     case password
+    case user_image
     case first_name
     case last_name
     case campus_location
